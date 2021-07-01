@@ -161,10 +161,14 @@ macro_rules! uprintln {
 #[macro_export]
 macro_rules! dprint {
     ($s:expr) => {{
-        $crate::uprint!();
+        $crate::stdout()
+            .write_str($s)
+            .ok();
     }};
     ($s:expr, $($tt:tt)*) => {{
-        $crate::uprint!($s, $($tt:tt)*);
+        $crate::stdout()
+            .write_fmt(format_args!($s, $($tt)*))
+            .ok();
     }};
 }
 #[cfg(not(any(feature = "dprint", doc)))]
